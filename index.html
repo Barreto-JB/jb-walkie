@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0d17">
+  <meta name="description" content="JB Walkie: conversa por voz em tempo real, sem trocar números. Partilha o link por NFC, mensagem ou QR Code.">
+  <meta property="og:title" content="JB Walkie — a tua ligação privada">
+  <meta property="og:description" content="Entra na sala e vamos conversar em tempo real! Sem contas nem números.">
+  <title>JB Walkie · Walkie-talkie NFC</title>
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="style.css">
+  <script src="vendor/peerjs.min.js" defer></script>
+  <script src="vendor/qrcode.min.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="aurora aurora-a"></div><div class="aurora aurora-b"></div>
+  <main class="shell">
+    <header class="header">
+      <div class="brand">
+        <div class="brand-icon"><svg width="25" height="25" viewBox="0 0 24 24" fill="none"><path d="M5 9v6m4-10v14m4-17v20m4-15v10m4-8v6" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/></svg></div>
+        <div><strong>JB<span>WALKIE</span></strong><small>VOZ INSTANTÂNEA</small></div>
+      </div>
+      <button class="top-help" id="helpBtn" type="button" aria-label="Informações">?</button>
+    </header>
+    <section class="panel">
+      <div class="panel-glow"></div>
+      <div class="topline"><span class="eyebrow"><span class="dot" id="networkDot"></span><span id="networkLabel">PRONTO PARA LIGAR</span></span><span class="version">v1.0</span></div>
+      <div class="hero-title" id="heroTitle">A tua voz.<br><span>Sem distância.</span></div>
+      <p class="hero-subtitle" id="heroSubtitle">Cria uma sala privada e conversa com um amigo, mesmo estando em redes diferentes.</p>
+      <div class="intro" id="intro">
+        <label class="input-label" for="nickname">COMO QUERES SER CHAMADO?</label>
+        <input id="nickname" type="text" maxlength="22" placeholder="Ex.: João" autocomplete="nickname" spellcheck="false">
+        <button type="button" class="primary-btn" id="createBtn"><span>✦</span> Criar ligação <span aria-hidden="true">↗</span></button>
+        <p class="tiny">Gratuito · Sem conta · Sem número de telefone</p>
+      </div>
+      <div class="room hidden" id="room">
+        <div class="room-head">
+          <div><span class="input-label">SALA PRIVADA</span><strong id="roomLabel">•••• ••••</strong></div>
+          <span class="live-pill" id="roomPill"><span class="live-dot"></span><span id="roomPillText">A ligar</span></span>
+        </div>
+        <div class="participants">
+          <div class="person"><span class="avatar avatar-me" id="meAvatar">JB</span><div class="person-label"><strong id="meName">Tu</strong><small>Tu · online</small></div></div>
+          <div class="link-pulse" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="person"><span class="avatar avatar-friend" id="friendAvatar">?</span><div class="person-label"><strong id="friendName">À espera...</strong><small id="friendLabel">Convida alguém</small></div></div>
+        </div>
+        <div class="voice-panel">
+          <div class="sound-waves" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <p class="voice-head" id="voiceHeading">A preparar ligação...</p>
+          <p class="voice-caption" id="voiceCaption">Aguarda um momento.</p>
+          <button type="button" class="ptt" id="pttBtn" disabled aria-label="Manter premido para falar"><span class="mic">🎙</span><strong id="pttLabel">AGUARDA</strong><span id="pttHint">SEM LIGAÇÃO</span></button>
+          <div class="options"><label class="switch-label"><input type="checkbox" id="tapMode"><span class="switch"></span><span>Toque para falar</span></label><span class="time" id="callTime">00:00</span></div>
+        </div>
+        <div class="actions"><button type="button" class="action-btn" id="shareBtn">↗ <span>Partilhar</span></button><button type="button" class="action-btn" id="qrBtn">▦ <span>QR Code</span></button><button type="button" class="action-btn danger-btn" id="leaveBtn">⏻ <span>Sair</span></button></div>
+        <div class="status-line" role="status" aria-live="polite" id="statusLine">A preparar...</div>
+      </div>
+    </section>
+    <div class="perks"><div><span class="perk-icon">◎</span><span>Áudio encriptado<br><small>WebRTC</small></span></div><div><span class="perk-icon">∞</span><span>Wi-Fi ou dados<br><small>Redes diferentes</small></span></div><div><span class="perk-icon">⊙</span><span>Sem instalar<br><small>Abre no navegador</small></span></div></div>
+    <footer>FEITO PARA EXPERIMENTAR · <a href="https://github.com/Barreto-JB" target="_blank" rel="noopener">BARRETO-JB</a></footer>
+  </main>
+  <audio id="remoteAudio" autoplay playsinline></audio>
+  <dialog id="modal"><div class="modal-body"><button class="modal-close" id="modalClose" aria-label="Fechar">×</button><h2 id="modalTitle">Partilha a ligação</h2><div id="modalContent"></div></div></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
